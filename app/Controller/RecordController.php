@@ -4,12 +4,26 @@ class RecordController extends AppController{
 	
 	//set helper
 	public $helpers = array('Html', 'Form', 'Js','Text' );
+	
+	//set object model
+	var $uses = array('Log');
 		
 	public function index(){
-		$this->redirect(array('action' => 'New_record'));
+
 	}
 	
 	public function New_record(){
+		if($this->request->is('post'))
+		{
+			var_dump($this->request->data);
+		}
+		else 
+		{
+			
+		}
+	}
+	
+	public function ConfirmNewRecord(){
 		
 	}
 	
