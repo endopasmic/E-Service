@@ -3,19 +3,29 @@
 class RecordController extends AppController{
 	
 	//set helper
-	public $helpers = array('Html', 'Form', 'Js','Text' );
-	
+	public $helpers = array('Html', 'Form', 'Js','Text' ,'Captcha');
+	//set componant
+	public $components=array( 'Security', 'Captcha', );	
 	//set object model
 	var $uses = array('Log');
 		
 	public function index(){
 
 	}
+
+	public function captcha() {
+		$this->Captcha->configCaptcha( array( 'pathType'=>2));
+		$this->Captcha->getCaptcha();
+	}
 	
-	public function New_record(){
+	public function NewRecord(){
+		if($this->Captcha->validateCaptcha()) {
+			// OKの場合の処理
+		}
 		if($this->request->is('post'))
 		{
 			var_dump($this->request->data);
+			
 		}
 		else 
 		{

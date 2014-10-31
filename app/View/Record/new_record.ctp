@@ -2,10 +2,11 @@
 <div id="record_form">
 <h2>E-service:Add new Record</h2>
 <br/>
+
 <?php
 
 //create Form
-echo $this->Form->create('Log',array('label' => false,'novalidate' => true));
+echo $this->Form->create('Log',array('label' => false));
 //create text field
 echo $this->Form->input('Employee Id');
 echo $this->Form->input('Log.first_name');
@@ -42,8 +43,9 @@ echo $this->Form->textarea('Detail',array(
 
 <!--create capcha --!>
 
-
-
+<?php 
+echo $this->Captcha->input(); 
+?>
 
 <?php
 //create button
