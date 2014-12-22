@@ -13,25 +13,25 @@ echo $this->Form->input('Log.first_name');
 echo $this->Form->input('Log.last_name');
 echo $this->Form->input('Log.email');
 echo $this->Form->input('Tel');
-//create option
+//create select form option
 
-echo $this->Form->input('Department', array(
+echo $this->Form->input('Log.department', array(
 	'options' => array('ผู้บริหาร','สำนักงานอธิการบดี', 'ฝ่ายวิจัยและบริการวิชาการ','ศูนย์สารสนเทศและการสื่อสาร',
 	'ศูนย์สหกิจศึกษาและจัดหางาน','งานทะเบียนและประมวลผล','งานการเรียนการสอน','งานประกันคุณภาพการศึกษา',
 	'ฝ่ายกิจการนักศึกษา','งานประชาสัมพันธ์','ศูนย์รับสมัครนักศึกษา','ศูนย์วิทยบริการ','ฝ่ายบริหาร','คณะวิศวกรรมศาสตร์',
 	'คณะเทคโนโลยีสารสนเทศ','คณะบริหารธุรกิจ','สำนักวิชาพื้นฐานและภาษา'),
     'empty' => '(choose one)'
 ));
-echo $this->Form->input('User Category', array(
+echo $this->Form->input('Log.user_category', array(
     'options' => array('Officer','Student', 'Teacher'),
     'empty' => '(choose one)'
 ));
 //create radio
 $options = array('it_support' => 'IT Support', 'system_and_network' => 'System and Network', 'website_develope' => 'Website Develope','design' => 'Design');
-echo $this->Form->radio('Service', $options);
+echo $this->Form->radio('Log.service', $options);
 //create text field
-echo $this->Form->input('Location');
-echo $this->Form->input('Title');
+echo $this->Form->input('location');
+echo $this->Form->input('title');
 ?>
 Detail
 <?php
@@ -42,9 +42,10 @@ echo $this->Form->textarea('Detail',array(
 ?>
 
 <!--create capcha --!>
-
+กรุณากรอก ตามตัวอักษรดังต่อไปนี้ 
 <?php 
-echo $this->Captcha->input(); 
+echo $this->Captcha->input();
+
 ?>
 
 <?php

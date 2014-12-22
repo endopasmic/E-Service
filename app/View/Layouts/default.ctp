@@ -1,7 +1,5 @@
 <?php
 /**
- *
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,39 +13,24 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
 $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
 $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 ?>
 <!DOCTYPE html>
 <html>
 <head>
- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
- 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<?php echo $this->Html->charset(); ?>
 	<title>
 		<?php echo $cakeDescription ?>:
-		<?php echo $title_for_layout; ?>
+		<?php echo $this->fetch('title'); ?>
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
-
 		echo $this->Html->css('cake.generic');
-
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
-
-		//OKkana?
-		//print $html->charsetTag('UTF-8');
-		//print $javascript->link('prototype');
-		//print $javascript->link('scriptaculous.js?load=effects'); 
-
-
 	?>
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 </head>
 <body>
 	<div id="container">
@@ -60,7 +43,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 
 			<?php echo $this->fetch('content'); ?>
 		</div>
-		
 		<div id="footer">
 			<?php echo $this->Html->link(
 					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),

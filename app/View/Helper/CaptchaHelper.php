@@ -22,7 +22,7 @@ class CaptchaHelper extends AppHelper{
 		parent::__construct($view, $settings);
 		$this->view=$view;
 		//$this->view->viewVars = ClassRegistry::getObject('view')->viewVars['captchaerror'];
-		$this->captchaerror=$view->viewVars['captchaerror'];
+		//$this->captchaerror=$view->viewVars['captchaerror'];
 		//debug($view->viewVars['captchaerror']);
 	}
 
