@@ -153,6 +153,11 @@ echo "&nbsp";
 			'label' => false,
 			'options' => $option,
 		));
+		echo $this->Form->input('log_id',array(
+			'type' => 'hidden',
+			'name' => 'log_id',
+			'value' => $log_data[$i]['Log']['log_id']
+		));
 		echo $this->Form->end('Submit');
 	 
 	?>

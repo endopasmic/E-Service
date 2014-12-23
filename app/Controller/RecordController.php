@@ -5,18 +5,19 @@ class RecordController extends AppController{
 	//set helper
 	public $helpers = array('Html', 'Form', 'Js','Text' ,'Captcha');
 	//set componant
-	public $components=array( 'Security', 'Captcha', );	
+	public $components=array('Captcha', );	
 	//set object model
 	var $uses = array('Log','Department','Status');
 			
 	public function index(){
 
 	}
-
+	
 	public function captcha() {
 		$this->Captcha->configCaptcha( array( 'pathType'=>3));
 		$this->Captcha->getCaptcha();
 	}
+	
 	
 	public function NewRecord(){
 
@@ -93,6 +94,27 @@ class RecordController extends AppController{
 
 	}
 	
+	public function Show(){
+		$this->set('log_data',$this->Log->find('all'));
+		$this->set('log_amount',$this->Log->find('count'));
+		$this->set('department_data',$this->Department->find('all'));
+		$this->set('status_data',$this->Status->find('all'));
+	
+		if($this->request->is('post')){
+			debug($this->request->data);
+				
+			if($this->request->data['Status']['status_name']==1)
+			{
+				$this->redirect(array(
+						'action' => 'Update'
+				));
+			}
+			
+				
+				
+		}
+	}
+	
 	public function Delete(){
 		$emp_id = $this->Log->getLastInsertId();
 		$this->Log->delete($emp_id);
@@ -107,22 +129,7 @@ class RecordController extends AppController{
 		
 	}
 	
-	public function Show(){
-		$this->set('log_data',$this->Log->find('all'));
-		$this->set('log_amount',$this->Log->find('count'));
-		$this->set('department_data',$this->Department->find('all'));
-		$this->set('status_data',$this->Status->find('all'));
-		
-		if($this->request->is('post')){
-			debug($this->request->data);
-			
-			if($this->request->data['Status']['status_name']==0){
-				
-			}
-			
-			
-		}
-	}
+
 	
 	public function Detail(){
 		
