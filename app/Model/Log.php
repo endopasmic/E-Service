@@ -2,6 +2,7 @@
 //this is model
 class Log extends AppModel{
 
+	public $primaryKey = 'log_id';
 	public $validate = array(
 
 		'first_name' => array(

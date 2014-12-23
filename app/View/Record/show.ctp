@@ -2,10 +2,18 @@
 <!-- Login Form -->
 <h2>Login</h2>
 <?php
-echo $this->Form->create();
+if($login_status==0){
+
+echo $this->Form->create(false,array(
+	'action' => 'Login'
+));
 echo $this->Form->input('Username');
 echo $this->Form->input('Password',array('type' => 'password'));
 echo $this->Form->end('Login');
+}
+else if($login_status==1){
+	echo "already logined";
+}
 ?>
 
 <!-- Search Form -->
@@ -152,13 +160,20 @@ echo "&nbsp";
 		echo $this->Form->input('Status.status_name',array(
 			'label' => false,
 			'options' => $option,
+			'default' => $log_data[$i]['Log']['status_id']-1
 		));
+		//-1 because array is start at 0 but id start at 1
 		echo $this->Form->input('log_id',array(
 			'type' => 'hidden',
 			'name' => 'log_id',
-			'value' => $log_data[$i]['Log']['log_id']
+			'value' => $log_data[$i]['Log']['log_id'],
 		));
 		echo $this->Form->end('Submit');
+
+		echo $this->Html->link('Detail',array(
+			'action' => 'Detail',$log_data[$i]['Log']['log_id']
+		));
+
 	 
 	?>
 

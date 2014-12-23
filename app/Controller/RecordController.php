@@ -5,7 +5,7 @@ class RecordController extends AppController{
 	//set helper
 	public $helpers = array('Html', 'Form', 'Js','Text' ,'Captcha');
 	//set componant
-	public $components=array('Captcha', );	
+	public $components=array('Captcha', 'Session');	
 	//set object model
 	var $uses = array('Log','Department','Status');
 			
@@ -94,7 +94,35 @@ class RecordController extends AppController{
 
 	}
 	
+	public function Login(){
+		
+		if($this->request->is('post')){
+			debug($this->request->data);
+			$username = $this->request->data['Username'];
+			$password = $this->request->data['Password'];
+			if($username == "admin" && $password == "icc"){
+				//$this->Session->write('UserId',$UserData[$i]['User']['user_id']);
+				$this->Session->write('login_status','1');
+				$this->Session->setFlash("Login success");
+			}
+			else{
+				$this->Session->write("login_status",'0');
+				$this->Session->setFlash("Login fell");
+			}
+			
+			$this->redirect(array(
+				'action' => 'Show'
+			));
+			
+		}
+
+	
+	}//end function
+	
 	public function Show(){
+		$login_status = $this->Session->read('login_status');
+		$this->set('login_status',$login_status);
+		
 		$this->set('log_data',$this->Log->find('all'));
 		$this->set('log_amount',$this->Log->find('count'));
 		$this->set('department_data',$this->Department->find('all'));
@@ -102,13 +130,54 @@ class RecordController extends AppController{
 	
 		if($this->request->is('post')){
 			debug($this->request->data);
-				
+
+			if($this->request->data['Status']['status_name']==0)
+			{
+			
+				$status_update = array('log_id' => $_POST['log_id'],'status_id' => 1);
+				$this->Log->save($status_update);
+				$this->redirect(array(
+						'action' => 'show'
+				));
+			
+			}
 			if($this->request->data['Status']['status_name']==1)
 			{
 				$this->redirect(array(
 						'action' => 'Update'
 				));
 			}
+			if($this->request->data['Status']['status_name']==2)
+			{
+				
+				$status_update = array('log_id' => $_POST['log_id'],'status_id' => 3);
+				$this->Log->save($status_update);
+				$this->redirect(array(
+						'action' => 'show'
+				));
+				
+			}
+			if($this->request->data['Status']['status_name']==3)
+			{
+			
+				$status_update = array('log_id' => $_POST['log_id'],'status_id' => 4);
+				$this->Log->save($status_update);
+				$this->redirect(array(
+						'action' => 'show'
+				));
+			
+			}
+			if($this->request->data['Status']['status_name']==4)
+			{
+			
+				$status_update = array('log_id' => $_POST['log_id'],'status_id' => 5);
+				$this->Log->save($status_update);
+				$this->redirect(array(
+						'action' => 'show'
+				));
+			
+			}
+
 			
 				
 				
@@ -128,10 +197,8 @@ class RecordController extends AppController{
 	public function Update(){
 		
 	}
-	
-
-	
-	public function Detail(){
+		
+	public function Detail(log_id = null){
 		
 	}
 	
