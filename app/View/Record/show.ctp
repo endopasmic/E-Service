@@ -14,16 +14,21 @@ echo $this->Form->end('Login');
 else if($login_status==1){
 	echo "already logined";
 }
+echo "<br/>";
+echo $this->Html->link('Logout',array('action' => 'Logout'));
 ?>
 
 <!-- Search Form -->
 <h2>Search As</h2>
 <h3>Type</h3>
 <?php
-echo $this->Form->create();
-echo $this->Form->input('type]',array(
-	'options' => array('Employee ID','First Name','User Category','Service','Department','Status'),
-	'empty' => 'choose all',
+echo $this->Form->create(array(
+	'type' => 'post',
+	'url' => array('controller' => 'Record','action' => 'SearchResult'),
+));
+echo $this->Form->input('type',array(
+	'options' => array('Employee ID','First Name','Last Name'),
+	'empty' => 'Please choose one',
 	'label' => false
 ));
 ?>
@@ -31,7 +36,12 @@ echo $this->Form->input('type]',array(
 <?php 
 echo $this->Form->month('month',array('empty' => 'choose all'));
 //echo $this->Form->year('year');
-echo $this->Form->input('year',array('type'=>'date', 'dateFormat'=>'Y','empty' => 'choose all'));
+echo $this->Form->input('year',array(
+	'type'=>'date',
+	'dateFormat'=>'Y',
+	'maxYear' => date('Y'),
+	'empty' => 'choose all'
+	));
 echo $this->Form->input('keyword');
 echo $this->Form->end('Search');
 ?>
@@ -111,17 +121,28 @@ echo "&nbsp";
 	</td>
 	<td>
 	<?php
-	 
-	 
-		echo $log_data[$i]['Log']['user_category']."<br/>";
-	 
+	for($l=0;$l<$user_category_amount;$l++) 
+	{
+		if($log_data[$i]['Log']['user_category']==$user_category_data[$l]['UserCategory']['category_id'])
+		{
+			echo $user_category_data[$l]['UserCategory']['category_name']."<br/>";
+		}
+	}
 	?>
 	</td>
 	<td>
-	<?php
+	<?php	 	
+	for($l=0;$l<$department_amount;$l++) 
+	{	
+		
+		if($log_data[$i]['Log']['department']==$department_data[$l]['Department']['department_id'])
+		{
+			echo $department_data[$l]['Department']['department_name']."<br/>";
+		}
 	 
-	 
-		echo $log_data[$i]['Log']['department']."<br/>";
+		 
+	}
+
 	 
 	?>
 	</td>
@@ -151,35 +172,47 @@ echo "&nbsp";
 	</td>
 	<td>
 	<?php
-	$option = array($status_data['0']['Status']['status_name'],$status_data['1']['Status']['status_name'],
-	$status_data['2']['Status']['status_name'],$status_data['3']['Status']['status_name'],
-	$status_data['4']['Status']['status_name']);
-	 
-	 
-		echo $this->Form->create();
-		echo $this->Form->input('Status.status_name',array(
-			'label' => false,
-			'options' => $option,
-			'default' => $log_data[$i]['Log']['status_id']-1
-		));
-		//-1 because array is start at 0 but id start at 1
-		echo $this->Form->input('log_id',array(
-			'type' => 'hidden',
-			'name' => 'log_id',
-			'value' => $log_data[$i]['Log']['log_id'],
-		));
-		echo $this->Form->end('Submit');
+	if($login_status==1)
+	{
+		$option = array($status_data['0']['Status']['status_name'],
+			$status_data['1']['Status']['status_name'],$status_data['2']['Status']['status_name'],
+			$status_data['3']['Status']['status_name'],$status_data['4']['Status']['status_name']);
+		 
+		 
+			echo $this->Form->create();
+			echo $this->Form->input('Status.status_name',array(
+				'label' => false,
+				'options' => $option,
+				'default' => $log_data[$i]['Log']['status_id']-1
+			));
+			//-1 because array is start at 0 but id start at 1
+			echo $this->Form->input('log_id',array(
+				'type' => 'hidden',
+				'name' => 'log_id',
+				'value' => $log_data[$i]['Log']['log_id'],
+			));
+			echo $this->Form->end('Submit');
 
-		echo $this->Html->link('Detail',array(
-			'action' => 'Detail',$log_data[$i]['Log']['log_id']
-		));
+			echo $this->Html->link('Detail',array(
+				'action' => 'Detail',$log_data[$i]['Log']['log_id']
+			));
 
-	 
+	}
+	else	
+	{
+		for($l=0;$l<5;$l++)
+		{
+			if($status_data[$l]['Status']['status_id']==$log_data[$i]['Log']['status_id'])
+			{
+				echo $status_data[$l]['Status']['status_name'];
+			}
+		}
+	}	
 	?>
 
 	</td>	
 </tr>
-<?php } ?>
+<?php } //end for loop ?>
 </table>
 
 
