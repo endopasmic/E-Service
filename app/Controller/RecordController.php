@@ -195,7 +195,10 @@ class RecordController extends AppController{
 	}
 	
 	public function Update($log_id = null){
+<<<<<<< HEAD
 
+=======
+>>>>>>> 152962c0012f2b0e4460d080f3ff3ce32f9e47e4
 		
  		$log = $this->Log->find('all', array('conditions' => array('Log.log_id' => $log_id)));
  		
@@ -246,6 +249,7 @@ class RecordController extends AppController{
 				$detail = $this->request->data['Log']['Detail'];
 				$this->set('detail',$detail);
 
+<<<<<<< HEAD
 				$signature= $this->request->data['Log']['Signature'];
 				$this->set('signature',$signature);
 
@@ -258,6 +262,11 @@ class RecordController extends AppController{
 				imagepng($img, 'img/'.$log_id.'.png');
 				imagepng($img);
 
+=======
+				$comment= $this->request->data['Log']['Comment'];
+				$this->set('comment',$comment);
+				
+>>>>>>> 152962c0012f2b0e4460d080f3ff3ce32f9e47e4
 				//INSERT data to DB
 				$this->Log->create();
 				$this->Log->save(array(
