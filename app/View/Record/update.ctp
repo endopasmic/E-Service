@@ -1,5 +1,5 @@
 <!-- this is View -->
-<<<<<<< HEAD
+
 <!--script src="../../Signpad/jquery-1.11.2.min.js"></script>
 <script src="../../Signpad/jquery.signaturepad.min.js"></script>
 <script src="../../Signpad/assets/json2.min.js"></script>
@@ -16,19 +16,15 @@
 </head>
 <body>
 =======
->>>>>>> 152962c0012f2b0e4460d080f3ff3ce32f9e47e4
+
 <div id="record_form">
 <h2>E-service:Add new Record</h2>
 <br/>
 
 <?php
-<<<<<<< HEAD
-//create Form
-
-=======
 
 //create Form
->>>>>>> 152962c0012f2b0e4460d080f3ff3ce32f9e47e4
+
 echo $this->Form->create('Log',array('label' => false));
 //create text field
 var_dump($log);
@@ -67,7 +63,6 @@ echo $this->Form->textarea('Detail',array(
 	'value'=>$log["Log"]["title"]
 ));
 ?>
-<<<<<<< HEAD
 
 <!--label for="name">Print your name</label-->
   
@@ -89,8 +84,6 @@ echo $this->Form->textarea('Detail',array(
   </div>
   </div>
 
-=======
->>>>>>> 152962c0012f2b0e4460d080f3ff3ce32f9e47e4
 Comment
 <?php
 echo $this->Form->textarea('Comment',array(
@@ -113,7 +106,7 @@ echo $this->Form->submit('Submit');
 
 echo $this->Form->end();
 
-<<<<<<< HEAD
+
 ?>
 
 <script>
@@ -127,4 +120,4 @@ echo $this->Form->end();
 =======
 ?>	
 </div>
->>>>>>> 152962c0012f2b0e4460d080f3ff3ce32f9e47e4
+

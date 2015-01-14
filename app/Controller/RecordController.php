@@ -195,10 +195,6 @@ class RecordController extends AppController{
 	}
 	
 	public function Update($log_id = null){
-<<<<<<< HEAD
-
-=======
->>>>>>> 152962c0012f2b0e4460d080f3ff3ce32f9e47e4
 		
  		$log = $this->Log->find('all', array('conditions' => array('Log.log_id' => $log_id)));
  		
@@ -249,7 +245,6 @@ class RecordController extends AppController{
 				$detail = $this->request->data['Log']['Detail'];
 				$this->set('detail',$detail);
 
-<<<<<<< HEAD
 				$signature= $this->request->data['Log']['Signature'];
 				$this->set('signature',$signature);
 
@@ -259,14 +254,28 @@ class RecordController extends AppController{
 
 				require_once 'signature-to-image.php';
 				$img = sigJsonToImage($signature);
-				imagepng($img, 'img/'.$log_id.'.png');
-				imagepng($img);
 
-=======
+				//Merge signature img with ICC Stamp
+				$src = imagecreatefrompng('img/ICC_Stamp.png');
+
+				imagealphablending($img, false);
+				imagesavealpha($img, true);
+
+				imagecopymerge($img, $src, 168, 0, 0, 0, 30, 55, 100); //have to play with these numbers for it to work for you, etc.
+
+				//header('Content-Type: image/png');
+
+				imagepng($img, 'img/Signature/'.$log_id.'.png');
+				//imagepng($img);
+
+				imagedestroy($img);
+				imagedestroy($src);
+				
+				// End merge
+
 				$comment= $this->request->data['Log']['Comment'];
 				$this->set('comment',$comment);
 				
->>>>>>> 152962c0012f2b0e4460d080f3ff3ce32f9e47e4
 				//INSERT data to DB
 				$this->Log->create();
 				$this->Log->save(array(
