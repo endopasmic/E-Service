@@ -1,4 +1,22 @@
 <!-- this is View -->
+
+<!--script src="../../Signpad/jquery-1.11.2.min.js"></script>
+<script src="../../Signpad/jquery.signaturepad.min.js"></script>
+<script src="../../Signpad/assets/json2.min.js"></script>
+<script src="../../Signpad/assets/flashcanvas.js"></script>
+<script src="../../Signpad/assets/flashcanvas.swf"></script>
+<link rel="stylesheet" href="../../Signpad/assets/jquery.signaturepad.css"-->
+<head>
+  <?php 
+    echo $this->Html->script('jquery-1.9.1.min');
+	echo $this->Html->script('jquery.signaturepad.min');
+	echo $this->Html->script('json2.min');
+	echo $this->Html->css('jquery.signaturepad');
+  ?>
+</head>
+<body>
+=======
+
 <div id="record_form">
 <h2>E-service:Add new Record</h2>
 <br/>
@@ -42,6 +60,27 @@ echo $this->Form->textarea('Detail',array(
 	'value'=>$log["Log"]["title"]
 ));
 ?>
+
+<!--label for="name">Print your name</label-->
+  
+  <!--input type="text" name="name" id="name" class="name">
+  <p class="typeItDesc">Review your signature</p-->
+  <p>Draw your signature</p>
+  <div class="sigPad">
+  <ul class="sigNav">
+    <!--li class="typeIt"><a href="#type-it" class="current">Type It</a></li--->
+    <!--li class="drawIt"><a href="#draw-it">Draw It</a></li-->
+    <li class="clearButton"><a href="#clear">Clear</a></li>
+  </ul>
+  <div class="sig sigWrapper">
+    <div class="typed"></div>
+    <canvas class="pad" width="190" height="55"></canvas>
+    <?php
+    	echo $this->Form->hidden('Signature',array('class' => 'output'));
+    ?>
+  </div>
+  </div>
+
 Comment
 <?php
 echo $this->Form->textarea('Comment',array(
@@ -60,5 +99,14 @@ echo $this->Form->button("Reset",array(
 ));
 echo $this->Form->submit('Submit');
 echo $this->Form->end();
+?>
+<script>
+    $(document).ready(function() {
+      $('.sigPad').signaturePad({drawOnly:true});
+    });
+</script>	
+</div>
+</body>
+=======
 ?>	
 </div>

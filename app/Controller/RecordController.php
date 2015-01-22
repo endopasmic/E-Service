@@ -206,7 +206,6 @@ class RecordController extends AppController{
 		*/
 	}
 	
-
 	public function Update($log_id = null){
 	
 		$log = $this->Log->find('all', array('conditions' => array('Log.log_id' => $log_id)));
@@ -254,6 +253,25 @@ class RecordController extends AppController{
 	
 				$detail = $this->request->data['Log']['Detail'];
 				$this->set('detail',$detail);
+				$signature= $this->request->data['Log']['Signature'];
+				$this->set('signature',$signature);
+				$comment= $this->request->data['Log']['Comment'];
+				$this->set('comment',$comment);
+	
+				require_once 'signature-to-image.php';
+				$img = sigJsonToImage($signature);
+				//Merge signature img with ICC Stamp
+				$src = imagecreatefrompng('img/ICC_Stamp.png');
+				imagealphablending($img, false);
+				imagesavealpha($img, true);
+				imagecopymerge($img, $src, 168, 0, 0, 0, 30, 55, 100); //have to play with these numbers for it to work for you, etc.
+				//header('Content-Type: image/png');
+				imagepng($img, 'img/Signature/'.$log_id.'.png');
+				//imagepng($img);
+				imagedestroy($img);
+				imagedestroy($src);
+	
+				// End merge
 				$comment= $this->request->data['Log']['Comment'];
 				$this->set('comment',$comment);
 	
@@ -280,9 +298,9 @@ class RecordController extends AppController{
 				));
 	
 				$this->render('confirm_new_record');
-			}//end validate capcha
-		}//end if post
-	}//end function
+			}
+		}
+	}
 		
 	public function Detail($log_id = null){
 		
@@ -297,8 +315,104 @@ class RecordController extends AppController{
 		debug($this->request->data);
 		
 		if($this->request->is('post'))
-		{			
-			//no select
+		{
+			$search_key = array();
+			//check data that is null or not if not null it will give the value to array
+			if($this->request->data['Log']['type'] != ""){
+				$type = $this->request->data['Log']['type'];
+				$search_key['type'] = $type;
+			}
+			
+			if($this->request->data['Log']['month']['month'] != ""){
+				$type = $this->request->data['Log']['month']['month'];
+				$search_key['month'] = $type;
+			}
+			
+			if($this->request->data['Log']['year']['year'] != ""){
+				$type = $this->request->data['Log']['year']['year'];
+				$search_key['year'] = $type;
+			}
+			
+			if($this->request->data['Log']['user_category'] != ""){
+				$user_category = $this->request->data['Log']['user_category'];
+				$search_key['user_category'] = $user_category;
+			}
+			
+			if($this->request->data['Log']['service'] != ""){
+				$service = $this->request->data['Log']['service'];
+				$search_key['service'] = $service;
+			}
+			
+			if($this->request->data['Log']['department'] != ""){
+				$service = $this->request->data['Log']['department'];
+				$search_key['department'] = $service;
+			}
+			
+			if($this->request->data['Log']['keyword'] != ""){
+				$service = $this->request->data['Log']['keyword'];
+				$search_key['keyword'] = $service;
+			}
+			
+			if($this->request->data['Status']['status_name'] != ""){
+				$service = $this->request->data['Status']['status_name'];
+				$search_key['status'] = $service;
+			}
+			
+			//check value that are not null in array
+			$count_array = count(array_filter($search_key,create_function('$a','return $a !== null;')));
+			
+			//count value that not null
+			for($i=0;$i<$count_array;$i++){
+				
+				if($this->request->data['Log']['type'] != ""){
+					$type = $this->request->data['Log']['type'];
+					$search_key['type'] = $type;
+				}
+					
+				if($this->request->data['Log']['month']['month'] != ""){
+					$type = $this->request->data['Log']['month']['month'];
+					$search_key['month'] = $type;
+				}
+					
+				if($this->request->data['Log']['year']['year'] != ""){
+					$type = $this->request->data['Log']['year']['year'];
+					$search_key['year'] = $type;
+				}
+					
+				if($this->request->data['Log']['user_category'] != ""){
+					$user_category = $this->request->data['Log']['user_category'];
+					$search_key['user_category'] = $user_category;
+				}
+					
+				if($this->request->data['Log']['service'] != ""){
+					$service = $this->request->data['Log']['service'];
+					$search_key['service'] = $service;
+				}
+					
+				if($this->request->data['Log']['department'] != ""){
+					$service = $this->request->data['Log']['department'];
+					$search_key['department'] = $service;
+				}
+					
+				if($this->request->data['Log']['keyword'] != ""){
+					$service = $this->request->data['Log']['keyword'];
+					$search_key['keyword'] = $service;
+				}
+					
+				if($this->request->data['Status']['status_name'] != ""){
+					$service = $this->request->data['Status']['status_name'];
+					$search_key['status'] = $service;
+				}
+				
+			}
+			
+			
+			
+
+			
+			debug($search_key);
+			debug($count_array);
+			/*
 			if($this->request->data['Log']['month']['month']=="" && $this->request->data['Log']['year']['year']=="")
 			{
 				echo "check case1";	
@@ -318,6 +432,15 @@ class RecordController extends AppController{
 				}
 
 			}
+			
+			case condition = 1
+			$this->find-('all',array(
+				'conditions' => array('a' => 'a');
+			)
+			case condition = 2
+			$this->find-('all',array(
+				'conditions' => array('a' => 'a','b');
+			)
 			
 			//select type and month case
 			else if($this->request->data['Log']['year']['year']=="")
@@ -349,6 +472,7 @@ class RecordController extends AppController{
 			{
 				echo "check case3";	
 			}
+			*/
 			
 			
 		}//end if post check

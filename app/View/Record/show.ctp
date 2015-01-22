@@ -1,11 +1,14 @@
 
 <!-- Login Form -->
+
 <h2>Login</h2>
 <?php
+
 if($login_status==0){
 
 echo $this->Form->create(false,array(
-	'action' => 'Login'
+	'action' => 'Login',
+	'novalidate' => 'true'
 ));
 echo $this->Form->input('Username');
 echo $this->Form->input('Password',array('type' => 'password'));
@@ -28,7 +31,7 @@ echo $this->Form->create(array(
 ));
 echo $this->Form->input('type',array(
 	'options' => array('Employee ID','First Name','Last Name'),
-	'empty' => 'Please choose one',
+	'empty' => 'choose all',
 	'label' => false
 ));
 ?>
@@ -42,10 +45,52 @@ echo $this->Form->input('year',array(
 	'maxYear' => date('Y'),
 	'empty' => 'choose all'
 	));
+?>
+<?php
+echo $this->Form->input('Log.user_category', array(
+    'options' => array('Officer','Student', 'Teacher'),
+    'empty' => 'choose all',
+    'required' => false
+));
+?>
+<?php
+//create radio
+$options = array('it_support' => 'IT Support', 'system_and_network' => 'System and Network', 'website_develope' => 'Website Develope','design' => 'Design');
+echo $this->Form->input('Log.service', array(
+	'options' => $options,
+	'empty' => 'choose all',
+	'required' => false
+));
+
+?>
+<?php
+echo $this->Form->input('Log.department', array(
+	'options' => array('ผู้บริหาร','สำนักงานอธิการบดี', 'ฝ่ายวิจัยและบริการวิชาการ','ศูนย์สารสนเทศและการสื่อสาร',
+	'ศูนย์สหกิจศึกษาและจัดหางาน','งานทะเบียนและประมวลผล','งานการเรียนการสอน','งานประกันคุณภาพการศึกษา',
+	'ฝ่ายกิจการนักศึกษา','งานประชาสัมพันธ์','ศูนย์รับสมัครนักศึกษา','ศูนย์วิทยบริการ','ฝ่ายบริหาร','คณะวิศวกรรมศาสตร์',
+	'คณะเทคโนโลยีสารสนเทศ','คณะบริหารธุรกิจ','สำนักวิชาพื้นฐานและภาษา'),
+	'empty' => 'choose all',
+	'required' => false
+));
+
+?>
+<h3>Status</h3>
+<?php
+
+	$option = array($status_data['0']['Status']['status_name'],
+		$status_data['1']['Status']['status_name'],$status_data['2']['Status']['status_name'],
+		$status_data['3']['Status']['status_name'],$status_data['4']['Status']['status_name']);
+	 
+	 
+		echo $this->Form->input('Status.status_name',array(
+			'label' => false,
+			'options' => $option,
+		));
+
 echo $this->Form->input('keyword');
 echo $this->Form->end('Search');
-?>
 
+?>
 <!-- status tag -->
 <h2>Status Tag</h2>
 <?php
