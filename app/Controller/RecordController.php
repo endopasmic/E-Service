@@ -323,8 +323,13 @@ class RecordController extends AppController{
 			$search_key = array();
 			//check data that is null or not if not null it will give the value to array
 			if($this->request->data['Log']['type'] != ""){
+				
+				$service = $this->request->data['Log']['keyword'];
+				$search_key['keyword'] = $service;
+				/*
 				$type = $this->request->data['Log']['type'];
 				$search_key['type'] = $type;
+				*/
 			}
 			
 			if($this->request->data['Log']['month']['month'] != ""){
@@ -352,10 +357,12 @@ class RecordController extends AppController{
 				$search_key['department'] = $service;
 			}
 			
+			/*
 			if($this->request->data['Log']['keyword'] != ""){
 				$service = $this->request->data['Log']['keyword'];
 				$search_key['keyword'] = $service;
 			}
+			*/
 			
 			if($this->request->data['Status']['status_name'] != ""){
 				$service = $this->request->data['Status']['status_name'];
@@ -369,11 +376,12 @@ class RecordController extends AppController{
 			$result_array = $this->Log->find('all',array(
 					'conditions' => array(
 						'Log.user_category LIKE' => $search_key['user_category'],
-						'Log.service LIKE' =>	$search_key['service'],	
-						'Log.department LIKE' => $search_key['department'],
-						'Log.status_id LIKE' => $search_key['status'],
-						'Log.emp_id LIKE' => $search_key['type'],
-								 								
+						//'Log.service LIKE' =>	$search_key['service'],	
+						//'Log.department_id LIKE' => $search_key['department'],
+						//'Log.status_id LIKE' => $search_key['status'],
+						'Log.emp_id LIKE' => $search_key['keyword'],
+						//'Log.first_name LIKE' => $search_key['keyword'],
+						//'Log.last_name LIKE' => $search_key['keyword'],			 								
 					)//end condition 
 			));//end find all
 

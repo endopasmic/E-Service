@@ -47,7 +47,7 @@ echo $this->Form->input('year',array(
 ?>
 <?php
 echo $this->Form->input('Log.user_category', array(
-    'options' => array('%%' => 'choose all','Officer','Student', 'Teacher'),
+    'options' => array('%%' => 'choose all',1 => 'Officer',2 => 'Student',3 => 'Teacher'),
     'required' => false
 ));
 ?>
