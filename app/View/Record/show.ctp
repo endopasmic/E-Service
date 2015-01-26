@@ -30,8 +30,7 @@ echo $this->Form->create(array(
 	'url' => array('controller' => 'Record','action' => 'SearchResult'),
 ));
 echo $this->Form->input('type',array(
-	'options' => array('Employee ID','First Name','Last Name'),
-	'empty' => 'choose all',
+	'options' => array('%%' => 'choose all','Employee ID','First Name','Last Name'),
 	'label' => false
 ));
 ?>
@@ -48,28 +47,25 @@ echo $this->Form->input('year',array(
 ?>
 <?php
 echo $this->Form->input('Log.user_category', array(
-    'options' => array('Officer','Student', 'Teacher'),
-    'empty' => 'choose all',
+    'options' => array('%%' => 'choose all','Officer','Student', 'Teacher'),
     'required' => false
 ));
 ?>
 <?php
 //create radio
-$options = array('it_support' => 'IT Support', 'system_and_network' => 'System and Network', 'website_develope' => 'Website Develope','design' => 'Design');
+$options = array('%%' => 'choose all',$service_data['0']['Service']['service_name'],$service_data['1']['Service']['service_name'],$service_data['2']['Service']['service_name'],$service_data['3']['Service']['service_name']);
 echo $this->Form->input('Log.service', array(
 	'options' => $options,
-	'empty' => 'choose all',
 	'required' => false
 ));
 
 ?>
 <?php
 echo $this->Form->input('Log.department', array(
-	'options' => array('ผู้บริหาร','สำนักงานอธิการบดี', 'ฝ่ายวิจัยและบริการวิชาการ','ศูนย์สารสนเทศและการสื่อสาร',
+	'options' => array('%%' => 'choose all','ผู้บริหาร','สำนักงานอธิการบดี', 'ฝ่ายวิจัยและบริการวิชาการ','ศูนย์สารสนเทศและการสื่อสาร',
 	'ศูนย์สหกิจศึกษาและจัดหางาน','งานทะเบียนและประมวลผล','งานการเรียนการสอน','งานประกันคุณภาพการศึกษา',
 	'ฝ่ายกิจการนักศึกษา','งานประชาสัมพันธ์','ศูนย์รับสมัครนักศึกษา','ศูนย์วิทยบริการ','ฝ่ายบริหาร','คณะวิศวกรรมศาสตร์',
 	'คณะเทคโนโลยีสารสนเทศ','คณะบริหารธุรกิจ','สำนักวิชาพื้นฐานและภาษา'),
-	'empty' => 'choose all',
 	'required' => false
 ));
 
@@ -180,7 +176,7 @@ echo "&nbsp";
 	for($l=0;$l<$department_amount;$l++) 
 	{	
 		
-		if($log_data[$i]['Log']['department']==$department_data[$l]['Department']['department_id'])
+		if($log_data[$i]['Log']['department_id']==$department_data[$l]['Department']['department_id'])
 		{
 			echo $department_data[$l]['Department']['department_name']."<br/>";
 		}
@@ -201,9 +197,15 @@ echo "&nbsp";
 	</td>
 	<td>
 	<?php
+	for ($l = 0; $l < $service_amount ;$l++) 
+	{
+		if($log_data[$i]['Log']['service_id'] == $service_data[$l]['Service']['service_id'])
+		{
+			echo $service_data[$l]['Service']['service_name'];
+		}	
+	}
 	 
-	 
-		echo $log_data[$i]['Log']['service']."<br/>";
+		//echo $log_data[$i]['Log']['service']."<br/>";
 	 
 	?>
 	</td>

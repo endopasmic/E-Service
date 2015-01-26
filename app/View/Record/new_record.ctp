@@ -27,7 +27,7 @@ echo $this->Form->input('Log.user_category', array(
     'empty' => '(choose one)'
 ));
 //create radio
-$options = array('it_support' => 'IT Support', 'system_and_network' => 'System and Network', 'website_develope' => 'Website Develope','design' => 'Design');
+$options = array('IT Support','System and Network','Website Develope','Design');
 echo $this->Form->radio('Log.service', $options);
 //create text field
 echo $this->Form->input('location');

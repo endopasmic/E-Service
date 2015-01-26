@@ -7,7 +7,7 @@ class RecordController extends AppController{
 	//set componant
 	public $components=array('Captcha', 'Session');	
 	//set object model
-	var $uses = array('Log','Department','Status','UserCategory','Comment');
+	var $uses = array('Log','Department','Status','UserCategory','Comment','Service');
 			
 	public function index(){
 
@@ -72,13 +72,14 @@ class RecordController extends AppController{
 				$this->Log->save(array(
 						'status_id' => '1',
 						'emp_id' => $emp_id,
+						'service_id' => $service,
+						'department_id' => $department+1,
 						'first_name' => $first_name,
 						'last_name' => $last_name,
 						'mail'=> $mail,
 						'tel' => $tel,
-						'department' => $department+1,
 						'user_category' => $user_category+1,
-						'service' => $service,
+						'service' => $service+1,
 						'location' => $location,
 						'title' => $title,
 						'detail' => $detail
@@ -139,6 +140,9 @@ class RecordController extends AppController{
 		
 		$this->set('user_category_data',$this->UserCategory->find('all'));
 		$this->set('user_category_amount',$this->UserCategory->find('count'));
+		
+		$this->set('service_data',$this->Service->find('all'));
+		$this->set('service_amount',$this->Service->find('count'));
 	
 		if($this->request->is('post')){
 			debug($this->request->data);
@@ -188,22 +192,22 @@ class RecordController extends AppController{
 						'action' => 'show'
 				));
 			
-			}
+			}//end if
 
 			
 				
 				
-		}
-	}
+		}//end if check post
+	}//end function
 	
 	public function Delete(){
 		$emp_id = $this->Log->getLastInsertId();
 		$this->Log->delete($emp_id);
-		/*
+		
 		$this->redirect(array(
-				'action' => 'NewRecord'
+				'action' => 'Show'
 		));
-		*/
+		
 	}
 	
 	public function Update($log_id = null){
@@ -281,11 +285,11 @@ class RecordController extends AppController{
 						'log_id' => $log_id,
 						'status_id' => '1',
 						'emp_id' => $emp_id,
+						'department_id' => $department,
 						'first_name' => $first_name,
 						'last_name' => $last_name,
 						'mail'=> $mail,
 						'tel' => $tel,
-						'department' => $department,
 						'user_category' => $user_category,
 						'service' => $service,
 						'location' => $location,
@@ -362,56 +366,36 @@ class RecordController extends AppController{
 			$count_array = count(array_filter($search_key,create_function('$a','return $a !== null;')));
 			
 			//count value that not null
-			for($i=0;$i<$count_array;$i++){
-				
-				if($this->request->data['Log']['type'] != ""){
-					$type = $this->request->data['Log']['type'];
-					$search_key['type'] = $type;
-				}
-					
-				if($this->request->data['Log']['month']['month'] != ""){
-					$type = $this->request->data['Log']['month']['month'];
-					$search_key['month'] = $type;
-				}
-					
-				if($this->request->data['Log']['year']['year'] != ""){
-					$type = $this->request->data['Log']['year']['year'];
-					$search_key['year'] = $type;
-				}
-					
-				if($this->request->data['Log']['user_category'] != ""){
-					$user_category = $this->request->data['Log']['user_category'];
-					$search_key['user_category'] = $user_category;
-				}
-					
-				if($this->request->data['Log']['service'] != ""){
-					$service = $this->request->data['Log']['service'];
-					$search_key['service'] = $service;
-				}
-					
-				if($this->request->data['Log']['department'] != ""){
-					$service = $this->request->data['Log']['department'];
-					$search_key['department'] = $service;
-				}
-					
-				if($this->request->data['Log']['keyword'] != ""){
-					$service = $this->request->data['Log']['keyword'];
-					$search_key['keyword'] = $service;
-				}
-					
-				if($this->request->data['Status']['status_name'] != ""){
-					$service = $this->request->data['Status']['status_name'];
-					$search_key['status'] = $service;
-				}
-				
-			}
+			$result_array = $this->Log->find('all',array(
+					'conditions' => array(
+						'Log.user_category LIKE' => $search_key['user_category'],
+						'Log.service LIKE' =>	$search_key['service'],	
+						'Log.department LIKE' => $search_key['department'],
+						'Log.status_id LIKE' => $search_key['status'],
+						'Log.emp_id LIKE' => $search_key['type'],
+								 								
+					)//end condition 
+			));//end find all
+
 			
-			
+			/*
+			//count value that not null
+			$result_array = $this->Log->find('all',array(
+					'conditions' => array(
+						'Log.user_category' => $search_key['user_category'],
+						'Log.service' => $search_key['service'],
+						'Log.department' => $search_key['department'],
+						'Log.status_id' => $search_key['status'],
+						'Log.emp_id' => $search_key['type'],									
+					)//end condition 
+			));//end find all
+			 * */
 			
 
 			
 			debug($search_key);
 			debug($count_array);
+			debug($result_array);
 			/*
 			if($this->request->data['Log']['month']['month']=="" && $this->request->data['Log']['year']['year']=="")
 			{
@@ -439,7 +423,7 @@ class RecordController extends AppController{
 			)
 			case condition = 2
 			$this->find-('all',array(
-				'conditions' => array('a' => 'a','b');
+				'conditions' => array('a' => 'a');
 			)
 			
 			//select type and month case
