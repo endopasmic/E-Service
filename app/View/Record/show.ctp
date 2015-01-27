@@ -30,7 +30,7 @@ echo $this->Form->create(array(
 	'url' => array('controller' => 'Record','action' => 'SearchResult'),
 ));
 echo $this->Form->input('type',array(
-	'options' => array('%%' => 'choose all','Employee ID','First Name','Last Name'),
+	'options' => array('%%' => 'choose all','emp_id' => 'Employee ID','first_name' => 'First Name','last_name' => 'Last Name'),
 	'label' => false
 ));
 ?>
@@ -53,7 +53,7 @@ echo $this->Form->input('Log.user_category', array(
 ?>
 <?php
 //create radio
-$options = array('%%' => 'choose all',$service_data['0']['Service']['service_name'],$service_data['1']['Service']['service_name'],$service_data['2']['Service']['service_name'],$service_data['3']['Service']['service_name']);
+$options = array('%%' => 'choose all','1' => $service_data['0']['Service']['service_name'],'2' => $service_data['1']['Service']['service_name'],'3' =>$service_data['2']['Service']['service_name'],'4' => $service_data['3']['Service']['service_name']);
 echo $this->Form->input('Log.service', array(
 	'options' => $options,
 	'required' => false
@@ -62,26 +62,18 @@ echo $this->Form->input('Log.service', array(
 ?>
 <?php
 echo $this->Form->input('Log.department', array(
-	'options' => array('%%' => 'choose all','ผู้บริหาร','สำนักงานอธิการบดี', 'ฝ่ายวิจัยและบริการวิชาการ','ศูนย์สารสนเทศและการสื่อสาร',
-	'ศูนย์สหกิจศึกษาและจัดหางาน','งานทะเบียนและประมวลผล','งานการเรียนการสอน','งานประกันคุณภาพการศึกษา',
-	'ฝ่ายกิจการนักศึกษา','งานประชาสัมพันธ์','ศูนย์รับสมัครนักศึกษา','ศูนย์วิทยบริการ','ฝ่ายบริหาร','คณะวิศวกรรมศาสตร์',
-	'คณะเทคโนโลยีสารสนเทศ','คณะบริหารธุรกิจ','สำนักวิชาพื้นฐานและภาษา'),
-	'required' => false
+	'options' => $department_data_list,
+	'empty' => array('%%' => 'choose all')
 ));
-
 ?>
 <h3>Status</h3>
 <?php
 
-	$option = array($status_data['0']['Status']['status_name'],
-		$status_data['1']['Status']['status_name'],$status_data['2']['Status']['status_name'],
-		$status_data['3']['Status']['status_name'],$status_data['4']['Status']['status_name']);
-	 
-	 
-		echo $this->Form->input('Status.status_name',array(
+echo $this->Form->input('Status.status_name',array(
 			'label' => false,
-			'options' => $option,
-		));
+			'options' => $status_data_list,
+			'empty' => array('%%' => 'choose all')
+));
 
 echo $this->Form->input('keyword');
 echo $this->Form->end('Search');
