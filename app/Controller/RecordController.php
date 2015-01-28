@@ -67,9 +67,10 @@ class RecordController extends AppController{
 				$detail = $this->request->data['Log']['Detail'];
 				$this->set('detail',$detail);
 				
+
 				//INSERT data to DB
-				$this->Log->create();
-				$this->Log->save(array(
+
+				$log_data_array = array(
 						'status_id' => '1',
 						'emp_id' => $emp_id,
 						'service_id' => $service+1,
@@ -81,8 +82,11 @@ class RecordController extends AppController{
 						'user_category' => $user_category+1,
 						'location' => $location,
 						'title' => $title,
-						'detail' => $detail
-				));
+						'detail' => $detail);
+
+				$this->Session->write('log_data_array', $log_data_array);
+
+				//$this->set('log_data_array',$log_data_array);
 										
 				$this->render('confirm_new_record');
 			}
@@ -128,6 +132,9 @@ class RecordController extends AppController{
 		$login_status = $this->Session->read('login_status');
 		echo($status_tag_id);
 		$this->set('login_status',$login_status);
+		$this->Session->delete('log_data_array');
+		$this->Session->delete('comment_data_array');
+
 		if(isset($status_tag_id)){
 			$this->set('log_data',$this->Log->find('all',array('conditions' => array('Log.status_id' => $status_tag_id))));
 			$this->set('log_amount',$this->Log->find('count',array('conditions' => array('Log.status_id' => $status_tag_id))));
@@ -205,9 +212,90 @@ class RecordController extends AppController{
 		}//end if check post
 	}//end function
 	
-	public function Delete(){
-		$emp_id = $this->Log->getLastInsertId();
-		$this->Log->delete($emp_id);
+	//action for insert Log table for NewRecord action
+	public function InsertNewLog(){
+		
+		$log_data_array = $this->Session->read('log_data_array');
+
+		if(isset($log_data_array)){
+			$this->Log->create();
+
+				$this->Log->save(array(
+						'status_id' => $log_data_array['status_id'],
+						'emp_id' => $log_data_array['emp_id'],
+						'service_id' => $log_data_array['service_id'],
+						'department_id' => $log_data_array['department_id'],
+						'first_name' => $log_data_array['first_name'],
+						'last_name' => $log_data_array['last_name'],
+						'mail'=> $log_data_array['mail'],
+						'tel' => $log_data_array['tel'],
+						'user_category' => $log_data_array['user_category'],
+						'location' => $log_data_array['location'],
+						'title' => $log_data_array['title'],
+						'detail' => $log_data_array['detail']
+				));
+				$this->Session->delete('log_data_array');
+				$this->redirect(array(
+				'action' => 'Show'
+			));
+		}
+		else{
+			$this->redirect(array(
+				'action' => 'Show'
+			));
+		}
+	}
+
+	//action for edit Log table for Update action
+	public function EditLog(){
+		
+		$log_data_array = $this->Session->read('log_data_array');
+		$comment_data_array = $this->Session->read('comment_data_array');
+
+
+		if(isset($log_data_array)){
+
+				$this->Log->save(array(
+						'log_id' => $log_data_array['log_id'],
+						'status_id' => $log_data_array['status_id'],
+						'emp_id' => $log_data_array['emp_id'],
+						'service_id' => $log_data_array['service_id'],
+						'department_id' => $log_data_array['department_id'],
+						'first_name' => $log_data_array['first_name'],
+						'last_name' => $log_data_array['last_name'],
+						'mail'=> $log_data_array['mail'],
+						'tel' => $log_data_array['tel'],
+						'user_category' => $log_data_array['user_category'],
+						'location' => $log_data_array['location'],
+						'title' => $log_data_array['title'],
+						'detail' => $log_data_array['detail']
+				));
+
+				$this->Comment->save(array(
+						'log_id' => $comment_data_array['log_id'],
+						'comment' => $comment_data_array['comment']
+				));
+
+				$this->Session->delete('log_data_array');
+				$this->Session->delete('comment_data_array');
+
+				$this->redirect(array(
+				'action' => 'Show'
+			));
+		}
+		else{
+			$this->redirect(array(
+				'action' => 'Show'
+			));
+		}
+	}
+
+
+
+	public function Delete($log_id=null){
+		if(isset($log_id)){
+			$this->Log->delete($log_id);
+		}
 		
 		$this->redirect(array(
 				'action' => 'Show'
@@ -276,17 +364,15 @@ class RecordController extends AppController{
 				imagecopymerge($img, $src, 168, 0, 0, 0, 30, 55, 100); //have to play with these numbers for it to work for you, etc.
 				//header('Content-Type: image/png');
 				imagepng($img, 'img/Signature/'.$log_id.'.png');
-				//imagepng($img);
 				imagedestroy($img);
 				imagedestroy($src);
-	
 				// End merge
 				$comment= $this->request->data['Log']['Comment'];
 				$this->set('comment',$comment);
 	
 				//INSERT data to DB
-				$this->Log->create();
-				$this->Log->save(array(
+
+				$log_data_array = array(
 						'log_id' => $log_id,
 						'status_id' => '2',
 						'emp_id' => $emp_id,
@@ -300,13 +386,17 @@ class RecordController extends AppController{
 						'location' => $location,
 						'title' => $title,
 						'detail' => $detail
-				));
-				$this->Comment->save(array(
+				);
+				
+				$comment_data_array = array(
 						'log_id' => $log_id,
-						'comment' => $comment
-				));
+						'comment' => $comment,
+				);
+
+				$this->Session->write('log_data_array', $log_data_array);
+				$this->Session->write('comment_data_array', $comment_data_array);
 	
-				$this->render('confirm_new_record');
+				$this->render('confirm_update_record');
 			}
 		}
 	}

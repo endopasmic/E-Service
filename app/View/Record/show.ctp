@@ -243,6 +243,11 @@ echo "&nbsp";
 			echo $this->Html->link('Detail',array(
 				'action' => 'Detail',$log_data[$i]['Log']['log_id']
 			));
+			echo("<br/>");
+			echo $this->Html->link('Delete',array(
+				'action' => 'Delete',$log_data[$i]['Log']['log_id']),
+				array('onclick'=>'return confirm("Are you sure?");')
+			);
 
 	}
 	else	
