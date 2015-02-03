@@ -82,15 +82,15 @@ echo $this->Form->end('Search');
 <!-- status tag -->
 <h2>Status Tag</h2>
 <?php
-echo $this->Html->link('รอรับดำเนินการ',array('action' => 'Status'));
+echo $this->Html->link('รอรับดำเนินการ',array('action' => 'Show',1));
 echo "&nbsp";
-echo $this->Html->link('กำลังดำเนินการ',array('action' => 'Status'));
+echo $this->Html->link('กำลังดำเนินการ',array('action' => 'Show',2));
 echo "&nbsp";
-echo $this->Html->link('ดำเนินการเสร็จแล้ว',array('action' => 'Status'));
+echo $this->Html->link('ดำเนินการเสร็จแล้ว',array('action' => 'Show',3));
 echo "&nbsp";
-echo $this->Html->link('ไม่สามารถแก้ไขเคสนี้ได้',array('action' => 'Status'));
+echo $this->Html->link('ไม่สามารถแก้ไขเคสนี้ได้',array('action' => 'Show',4));
 echo "&nbsp";
-echo $this->Html->link('ยกเลิก',array('action' => 'Status'));
+echo $this->Html->link('ยกเลิก',array('action' => 'Show',5));
 echo "&nbsp";
 ?>
 <br/>

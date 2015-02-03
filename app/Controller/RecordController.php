@@ -125,15 +125,22 @@ class RecordController extends AppController{
 		));
 	}
 	
-	public function Show(){
+	public function Show($status_tag_id=null){
 		$login_status = $this->Session->read('login_status');
 		$this->set('login_status',$login_status);
+		
+		if(isset($status_tag_id)){
+				$this->set('log_data',$this->Log->find('all',array('conditions' => array('Log.status_id' => $status_tag_id))));
+				$this->set('log_amount',$this->Log->find('count',array('conditions' => array('Log.status_id' => $status_tag_id))));
+		}
+		else{
+				$this->set('log_data',$this->Log->find('all'));
+				$this->set('log_amount',$this->Log->find('count'));
+		}
 		
 		$this->Session->delete('log_data_array');
 		$this->Session->delete('comment_data_array');
 			
-		$this->set('log_data',$this->Log->find('all'));
-		$this->set('log_amount',$this->Log->find('count'));
 		
 		$this->set('department_data',$this->Department->find('all'));
 		$this->set('department_data_list',$this->Department->find('list',array(
@@ -565,7 +572,7 @@ class RecordController extends AppController{
 		
 	}
 	
-	public function StatusTag(){
+	public function Status(){
 		
 	}
 	
