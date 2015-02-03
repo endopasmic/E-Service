@@ -38,7 +38,7 @@ echo $this->Form->input('Log.department', array(
 	'ฝ่ายกิจการนักศึกษา','งานประชาสัมพันธ์','ศูนย์รับสมัครนักศึกษา','ศูนย์วิทยบริการ','ฝ่ายบริหาร','คณะวิศวกรรมศาสตร์',
 	'คณะเทคโนโลยีสารสนเทศ','คณะบริหารธุรกิจ','สำนักวิชาพื้นฐานและภาษา'),
     'empty' => '(choose one)',
-    'value'=>$log["Log"]["department"]
+    'value'=>$log["Log"]["department_id"]
 ));
 echo $this->Form->input('Log.user_category', array(
     'options' => array('Officer','Student', 'Teacher'),
@@ -46,8 +46,8 @@ echo $this->Form->input('Log.user_category', array(
     'value'=>$log["Log"]["user_category"]
 ));
 //create radio
-$options = array('it_support' => 'IT Support', 'system_and_network' => 'System and Network', 'website_develope' => 'Website Develope','design' => 'Design');
-echo $this->Form->radio('Log.service', $options,array('value'=>$log["Log"]["service"]));
+$options = array('IT Support','System and Network','Website Develope','Design');
+echo $this->Form->radio('Log.service', $options,array('value'=>$log["Log"]["service_id"]-1));
 //create text field
 echo $this->Form->input('location',array('value'=>$log["Log"]["location"]));
 echo $this->Form->input('title',array('value'=>$log["Log"]["title"]));
