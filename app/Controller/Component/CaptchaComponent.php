@@ -31,8 +31,8 @@ class CaptchaComponent extends Component {
      * directory to another location outise the web server
      *
      */
-	public $pathType=1; 
-	public $resourcesPath = 'cakecaptcha/resources';
+	public $pathType=2; 
+	public $resourcesPath = '/cakecaptcha/resources';
 
     /** Min word length (for non-dictionary random text generation) */
     public $minWordLength = 5;

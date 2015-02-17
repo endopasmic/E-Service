@@ -20,7 +20,7 @@ class RecordController extends AppController{
 	
 	
 	public function NewRecord(){
-
+	
 		//in case before fill form
 		if(!$this->request->is('post')){
 			$this->render('new_record');
@@ -401,7 +401,7 @@ class RecordController extends AppController{
 		
 	}
 	
-	public function SearchResult()
+	public function  Result()
 	{
 		debug($this->request->data);
 		
