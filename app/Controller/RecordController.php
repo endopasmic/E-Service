@@ -3,12 +3,20 @@
 class RecordController extends AppController{
 	
 	//set helper
-	public $helpers = array('Html', 'Form', 'Js','Text' ,'Captcha');
+	public $helpers = array('Html', 'Form', 'Js','Text' ,'Captcha','Paginator');
 	//set componant
-	public $components=array('Captcha', 'Session');	
+	public $components=array('Captcha', 'Session','Paginator');	
 	//set object model
 	var $uses = array('Log','Department','Status','UserCategory','Comment','Service');
-			
+
+	public $paginate = array(
+			'fields' => array('Log.log_id'),
+			'limit' => 5,
+			'order' => array(
+					'Log.log_id' => 'asc'
+			)
+	);
+	
 	public function index(){
 
 	}
@@ -20,6 +28,8 @@ class RecordController extends AppController{
 	
 	
 	public function NewRecord(){
+
+		debug(date('o/m/d'));
 	
 		//in case before fill form
 		if(!$this->request->is('post')){
@@ -128,7 +138,7 @@ class RecordController extends AppController{
 	public function Show($status_tag_id=null){
 		$login_status = $this->Session->read('login_status');
 		$this->set('login_status',$login_status);
-		
+				
 		if(isset($status_tag_id)){
 				$this->set('log_data',$this->Log->find('all',array('conditions' => array('Log.status_id' => $status_tag_id))));
 				$this->set('log_amount',$this->Log->find('count',array('conditions' => array('Log.status_id' => $status_tag_id))));
@@ -137,7 +147,7 @@ class RecordController extends AppController{
 				$this->set('log_data',$this->Log->find('all'));
 				$this->set('log_amount',$this->Log->find('count'));
 		}
-		
+				
 		$this->Session->delete('log_data_array');
 		$this->Session->delete('comment_data_array');
 			
@@ -161,7 +171,6 @@ class RecordController extends AppController{
 		$this->set('service_amount',$this->Service->find('count'));
 	
 		if($this->request->is('post')){
-			debug($this->request->data);
 			
 			if($this->request->data['Status']['status_name']==0)
 			{
@@ -401,9 +410,9 @@ class RecordController extends AppController{
 		
 	}
 	
-	public function  Result()
+	public function SearchResult()
 	{
-		debug($this->request->data);
+		//debug($this->request->data);
 		
 		if($this->request->is('post'))
 		{
@@ -486,87 +495,35 @@ class RecordController extends AppController{
 					)//end condition 
 			));//end find all
 
-			
-			/*
-			//count value that not null
-			$result_array = $this->Log->find('all',array(
-					'conditions' => array(
-						'Log.user_category' => $search_key['user_category'],
-						'Log.service' => $search_key['service'],
-						'Log.department' => $search_key['department'],
-						'Log.status_id' => $search_key['status'],
-						'Log.emp_id' => $search_key['type'],									
-					)//end condition 
-			));//end find all
-			 * */
-			
 
 			
-			debug($search_key);
-			debug($count_array);
+			//debug($search_key);
+			//debug($count_array);
 			debug($result_array);
-			/*
-			if($this->request->data['Log']['month']['month']=="" && $this->request->data['Log']['year']['year']=="")
-			{
-				echo "check case1";	
-				$keyword = $this->request->data['Log']['keyword'];
-				
-				if($this->request->data['Log']['type']==0){
-					debug($this->Log->findAllByEmpId($keyword));
-					$this->set('keyword',$this->Log->findAllByEmpId($keyword));					
-				}
-				else if($this->request->data['Log']['type']==1){
-					debug($this->Log->findAllByEmpId($keyword));
-					$this->set('keyword',$this->Log->findAllByFirstName($keyword));
-				}
-				else if($this->request->data['Log']['type']==2){
-					debug($this->Log->findAllByEmpId($keyword));
-					$this->set('keyword',$this->Log->findAllByLastName($keyword));
-				}
+			
+			//set data from search result
+			$this->set('log_data',$result_array);
+			$this->set('log_amount',count($result_array));
+			$this->set('department_data',$this->Department->find('all'));
+			$this->set('department_data_list',$this->Department->find('list',array(
+					'fields' => array('Department.department_name')
+			)));
+			$this->set('department_amount',$this->Department->find('count'));
+			
+			$this->set('status_data',$this->Status->find('all'));
+			$this->set('status_data_list',$this->Status->find('list',array(
+					'fields' => array('Status.status_name')
+			)));
+			$this->set('status_amount',$this->Status->find('count'));
+			
+			$this->set('user_category_data',$this->UserCategory->find('all'));
+			$this->set('user_category_amount',$this->UserCategory->find('count'));
+			
+			$this->set('service_data',$this->Service->find('all'));
+			$this->set('service_amount',$this->Service->find('count'));
+			$login_status = $this->Session->read('login_status');
+			$this->set('login_status',$login_status);
 
-			}
-			
-			case condition = 1
-			$this->find-('all',array(
-				'conditions' => array('a' => 'a');
-			)
-			case condition = 2
-			$this->find-('all',array(
-				'conditions' => array('a' => 'a');
-			)
-			
-			//select type and month case
-			else if($this->request->data['Log']['year']['year']=="")
-			{
-				echo "check case2";
-				
-				$keyword = $this->request->data['Log']['keyword'];
-				$month = $this->request->data['Log']['month']['month']+1;
-				
-				if($this->request->data['Log']['type']==0){
-					debug($this->Log->findAllByEmpId($keyword));
-					$this->set('keyword',$this->Log->find('all',array(
-						'conditions' => array('Log.emp_id' => $keyword,'Log.department' => $month)
-					)));
-				}
-				else if($this->request->data['Log']['type']==1){
-					debug($this->Log->findAllByEmpId($keyword));
-					$this->set('keyword',$this->Log->findAllByFirstName($keyword));
-				}
-				else if($this->request->data['Log']['type']==2){
-					debug($this->Log->findAllByEmpId($keyword));
-					$this->set('keyword',$this->Log->findAllByLastName($keyword));
-				}
-				
-			}
-			
-			//select any selection
-			else
-			{
-				echo "check case3";	
-			}
-			*/
-			
 			
 		}//end if post check
 		

@@ -34,4 +34,13 @@ class AppController extends Controller {
 	public function index(){
 
 	}
+	
+	//P Wut kub set error layout in here 
+	/* 
+	function beforeRender() {
+		if($this->name == 'CakeError') {
+			//$this->layout = 'error';
+		}
+	}
+	*/
 }

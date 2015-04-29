@@ -79,6 +79,8 @@ echo $this->Form->input('keyword');
 echo $this->Form->end('Search');
 
 ?>
+
+
 <!-- status tag -->
 <h2>Status Tag</h2>
 <?php
@@ -110,7 +112,7 @@ echo "&nbsp";
 	<td>Location</td>
 	<td>Status</td>
 </tr>
-<?php 	for($i=0;$i<$log_amount;$i++) { ?>
+<?php 	for($i=$log_amount-1;$i>-1;$i--) { ?>
 <tr>
 	<td>
 	<?php

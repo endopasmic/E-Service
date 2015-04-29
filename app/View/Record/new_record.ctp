@@ -41,8 +41,9 @@ echo $this->Form->textarea('Detail',array(
 ));
 ?>
 
-<!--create capcha --!>
+<!--create capcha -->
 กรุณากรอก ตามตัวอักษรดังต่อไปนี้ 
+
 <?php 
 echo $this->Captcha->input();
 

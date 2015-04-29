@@ -87,7 +87,7 @@ echo $this->Form->textarea('Comment',array(
 	'label' => 'Comment',
 ));
 ?>
-<!--create capcha --!>
+<!--create capcha -->
 กรุณากรอก ตามตัวอักษรดังต่อไปนี้ 
 <?php 
 echo $this->Captcha->input();
