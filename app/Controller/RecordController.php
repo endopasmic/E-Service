@@ -403,6 +403,34 @@ class RecordController extends AppController{
 	
 		
 	public function Detail($log_id = null){
+				
+		$log_data = $this->Log->find('all',array(
+				'conditions' => array(
+						'Log.log_id' => $log_id
+				)
+		));
+		$this->set('log_data',$log_data);
+		$this->set('status_data',$this->Status->find('all',array(
+				'conditions' => array(
+						'Status.status_id' => $log_data[0]['Log']['status_id']
+				)
+		)));
+		$this->set('service_data',$this->Service->find('all',array(
+				'conditions' => array(
+						'Service.service_id' => $log_data[0]['Log']['status_id']
+				)
+		)));
+		$this->set('department_data',$this->Department->find('all',array(
+				'conditions' => array(
+						'Department.department_id' => $log_data[0]['Log']['department_id']
+				)
+		)));
+		$this->set('category_data',$this->UserCategory->find('all',array(
+				'conditions' => array(
+						'UserCategory.category_id' => $log_data[0]['Log']['user_category']
+				)
+		)));
+		debug($log_data);
 		
 	}
 	
@@ -412,7 +440,7 @@ class RecordController extends AppController{
 	
 	public function SearchResult()
 	{
-		//debug($this->request->data);
+		debug($this->request->data['Log']['type']);
 		
 		if($this->request->is('post'))
 		{
