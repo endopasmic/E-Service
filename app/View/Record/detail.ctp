@@ -74,3 +74,18 @@ echo $log_data[0]['Log']['location'];
 ?>
 <br />
 
+<?php
+$signature = $this->Html->image('Signature/'.$log_id.'.png'); 
+//debug('/E-service/img/Signature/'.$log_id.'.png');
+
+if(@getimagesize('http://localhost/E-service/img/Signature/19.png')){ 
+
+?>
+
+Signature
+<br />
+<?php
+echo $this->Html->image('Signature/'.$log_id.'.png');
+?>
+
+<?php }else{ echo "notting";} ?>
