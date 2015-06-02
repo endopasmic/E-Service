@@ -1,5 +1,6 @@
 <?php
 //this is controller
+App::uses('CakeEmail', 'Network/Email');
 class RecordController extends AppController{
 	
 	//set helper
@@ -8,6 +9,8 @@ class RecordController extends AppController{
 	public $components=array('Captcha', 'Session','Paginator');	
 	//set object model
 	var $uses = array('Log','Department','Status','UserCategory','Comment','Service');
+	
+	
 
 	public $paginate = array(
 			'fields' => array('Log.log_id'),
@@ -18,7 +21,12 @@ class RecordController extends AppController{
 	);
 	
 	public function index(){
-
+		
+		$email = new CakeEmail( 'gmail');						// インスタンス化
+	    $email->from( array( 'varit.asawavetvutt@gmail.com' => 'Sender')); // 送信元
+	    $email->to( 'varit.asawavetvutt@gmail.com');						// 送信先
+	    $email->subject( 'メールタイトル');						// メールタイトル
+	    $email->send( 'メール本文');								// メール送信
 	}
 	
 	public function captcha() {
@@ -409,6 +417,7 @@ class RecordController extends AppController{
 						'Log.log_id' => $log_id
 				)
 		));
+		$this->set('log_id',$log_id);
 		$this->set('log_data',$log_data);
 		$this->set('status_data',$this->Status->find('all',array(
 				'conditions' => array(
