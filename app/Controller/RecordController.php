@@ -22,11 +22,6 @@ class RecordController extends AppController{
 	
 	public function index(){
 		
-		$email = new CakeEmail( 'gmail');						// インスタンス化
-	    $email->from( array( 'varit.asawavetvutt@gmail.com' => 'Sender')); // 送信元
-	    $email->to( 'varit.asawavetvutt@gmail.com');						// 送信先
-	    $email->subject( 'メールタイトル');						// メールタイトル
-	    $email->send( 'メール本文');								// メール送信
 	}
 	
 	public function captcha() {
@@ -269,6 +264,14 @@ class RecordController extends AppController{
 	
 		$log_data_array = $this->Session->read('log_data_array');
 		$comment_data_array = $this->Session->read('comment_data_array');
+		
+		//send Email to admin
+		$email = new CakeEmail( 'gmail');						// インスタンス化
+		$email->from( array( 'varit.asawavetvutt@gmail.com' => 'Sender')); // sent to
+		$email->to( 'varit.asawavetvutt@gmail.com');						// from
+		$email->subject( 'Confirm Record From ICC');						// mail's title
+		$email->send( 'Record is updated');								//mail's detail
+		
 		if(isset($log_data_array)){
 			$this->Log->save(array(
 					'log_id' => $log_data_array['log_id'],
@@ -294,6 +297,7 @@ class RecordController extends AppController{
 			$this->redirect(array(
 					'action' => 'Show'
 			));
+			
 		}
 		else{
 			$this->redirect(array(
@@ -401,6 +405,8 @@ class RecordController extends AppController{
 						'log_id' => $log_id,
 						'comment' => $comment,
 				);
+
+				
 				$this->Session->write('log_data_array', $log_data_array);
 				$this->Session->write('comment_data_array', $comment_data_array);
 	
