@@ -21,6 +21,16 @@ echo "<br/>";
 echo $this->Html->link('Logout',array('action' => 'Logout'));
 ?>
 
+<br />
+<!-- New Record button -->
+
+<?php
+echo $this->Html->link('New Record',array(
+	'action' => 'NewRecord'
+));
+
+?>
+
 <!-- Search Form -->
 <h2>Search As</h2>
 <h3>Type</h3>

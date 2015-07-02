@@ -11,17 +11,40 @@ class RecordController extends AppController{
 	var $uses = array('Log','Department','Status','UserCategory','Comment','Service');
 	
 	
-
-	public $paginate = array(
-			'fields' => array('Log.log_id'),
-			'limit' => 5,
-			'order' => array(
-					'Log.log_id' => 'asc'
-			)
-	);
 	
 	public function index(){
+		$first_name= 'varit';
+		$email = 'ching@ching';
+		$service = 'ching';
+		$log_id = '1120	';
+		$email = new CakeEmail( 'gmail');						// インスタンス化
+		$email->from( array( 'wuttichai@tni.ac.th' => 'Sender')); // sent to
+		$email->to( 'varit.asawavetvutt@gmail.com');						// from
+		$email->subject( 'Confirm Record From ICC');			// mail's title
+		$email->send(
+				"คุณ:".$first_name." \n Email:".$email.
+				' \n ได้ส่งคำร้องผ่านระบบ E-service ในส่วนของ'.$service.
+				'ตามลิงค์ดังนี้ \n '.'/E-service/record/Update/'.$log_id
 		
+		);						//mail's detail
+	}
+	
+	public function view() {
+	
+		// we prepare our query, the cakephp way!
+		$this->paginate = array(
+				'conditions' => array('Log.log_id !=' => '6'),
+				'limit' => 3,
+				'order' => array('id' => 'desc')
+		);
+		 
+		// we are using the 'User' model
+		$users = $this->paginate('Log');
+		 
+		// pass the value to our view.ctp
+		$this->set('users', $users);
+		debug($users);
+		 
 	}
 	
 	public function captcha() {
@@ -95,8 +118,9 @@ class RecordController extends AppController{
 						'service' => $service+1,
 						'location' => $location,
 						'title' => $title,
-						'detail' => $detail
+						'detail' => $detail,
 				);
+				
 				$this->Session->write('log_data_array', $log_data_array);
 				$this->render('confirm_new_record');
 			}
@@ -246,8 +270,24 @@ class RecordController extends AppController{
 					'user_category' => $log_data_array['user_category'],
 					'location' => $log_data_array['location'],
 					'title' => $log_data_array['title'],
-					'detail' => $log_data_array['detail']
+					'detail' => $log_data_array['detail'],
+					'service' => $log_data_array['service']
 			));
+			
+			$log_id = $this->Log->getLastInsertId();
+			
+			//send Email to admin
+			$email = new CakeEmail( 'gmail');						// インスタンス化
+			$email->from( array( 'wuttichai@tni.ac.th' => 'Sender')); // sent to
+			$email->to( 'varit.asawavetvutt@gmail.com');						// from
+			$email->subject( 'Confirm Record From ICC');			// mail's title
+			$email->send(
+					"คุณ:".$log_data_array['first_name']." \n Email:".$log_data_array['mail'].
+					" \n ได้ส่งคำร้องผ่านระบบ E-service ในส่วนของ".$log_data_array['first_name'].
+					"ตามลิงค์ดังนี้ \n ".'icc.tni.ac.th/eserve/record/Update/'.$log_id
+			
+			);//mail's detail
+			
 			$this->Session->delete('log_data_array');
 			$this->redirect(array(
 					'action' => 'Show'
@@ -265,12 +305,6 @@ class RecordController extends AppController{
 		$log_data_array = $this->Session->read('log_data_array');
 		$comment_data_array = $this->Session->read('comment_data_array');
 		
-		//send Email to admin
-		$email = new CakeEmail( 'gmail');						// インスタンス化
-		$email->from( array( 'varit.asawavetvutt@gmail.com' => 'Sender')); // sent to
-		$email->to( 'varit.asawavetvutt@gmail.com');						// from
-		$email->subject( 'Confirm Record From ICC');						// mail's title
-		$email->send( 'Record is updated');								//mail's detail
 		
 		if(isset($log_data_array)){
 			$this->Log->save(array(
