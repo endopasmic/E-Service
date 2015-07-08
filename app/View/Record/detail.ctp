@@ -89,3 +89,4 @@ echo $this->Html->image('Signature/'.$log_id.'.png');
 ?>
 
 <?php }else{ echo "notting";} ?>
+

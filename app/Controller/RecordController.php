@@ -108,14 +108,13 @@ class RecordController extends AppController{
 				$log_data_array = array(
 						'status_id' => '1',
 						'emp_id' => $emp_id,
-						'service_id' => $service,
+						'service_id' => $service+1,
 						'department_id' => $department+1,
 						'first_name' => $first_name,
 						'last_name' => $last_name,
 						'mail'=> $mail,
 						'tel' => $tel,
 						'user_category' => $user_category+1,
-						'service' => $service+1,
 						'location' => $location,
 						'title' => $title,
 						'detail' => $detail,
@@ -271,7 +270,6 @@ class RecordController extends AppController{
 					'location' => $log_data_array['location'],
 					'title' => $log_data_array['title'],
 					'detail' => $log_data_array['detail'],
-					'service' => $log_data_array['service']
 			));
 			
 			$log_id = $this->Log->getLastInsertId();

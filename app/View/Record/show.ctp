@@ -1,9 +1,9 @@
 
 <!-- Login Form -->
-
 <h2>Login</h2>
 <?php
 
+//if $login_status=0 it means still not login. $login=1 it means already logined 
 if($login_status==0){
 
 echo $this->Form->create(false,array(
@@ -22,8 +22,8 @@ echo $this->Html->link('Logout',array('action' => 'Logout'));
 ?>
 
 <br />
-<!-- New Record button -->
 
+<!-- New Record button -->
 <?php
 echo $this->Html->link('New Record',array(
 	'action' => 'NewRecord'
@@ -90,6 +90,16 @@ echo $this->Form->end('Search');
 
 ?>
 
+<!-- link to graph page -->
+<h2>Link to Graph page</h2>
+<?php
+echo $this->Html->link('Show Graph',array(
+	'controller' => 'Graph',
+	'action' => 'ShowGraph'
+));
+
+?>
+<br /><br />
 
 <!-- status tag -->
 <h2>Status Tag</h2>
@@ -107,6 +117,7 @@ echo "&nbsp";
 ?>
 <br/>
 <h2>Table</h2>
+
 <!-- show table -->
 <table border='1'>
 <tr>
