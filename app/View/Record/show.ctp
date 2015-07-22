@@ -93,11 +93,18 @@ echo $this->Form->end('Search');
 <!-- link to graph page -->
 <h2>Link to Graph page</h2>
 <?php
-echo $this->Html->link('Show Graph',array(
+echo $this->Html->link('Pie Graph',array(
 	'controller' => 'Graph',
-	'action' => 'ShowGraph'
+	'action' => 'PieGraph'
 ));
+?>
 
+<br />
+<?php
+echo $this->Html->link('Line Graph',array(
+	'controller' => 'Graph',
+	'action' => 'LineGraph'
+));
 ?>
 <br /><br />
 

@@ -10,12 +10,19 @@ class GraphController extends AppController{
 	//set object model
 	var $uses = array('Log','Department','Status','UserCategory','Comment','Service');
 	
-	function ShowGraph(){
-		$department_json = $this->Log->find('all',array(
+	function PieGraph(){
+		$department_data = $this->Log->find('all',array(
 				'fields' => array('Log.department_id')
-		));		
-		$this->set(compact('department_json'));
-		$this->set('_serialize',array('department_json'));
+		));	
+		$department_name  =$this->Department->find('all',array(
+				'fields' => array('Department.department_name')	
+		));
+		$this->set(compact('department_data','department_name'));
+		$this->set('_serialize',array('department_data','department_name'));
+	}
+	
+	function LineGraph(){
+		
 	}
 	
 }
